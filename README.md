@@ -2,7 +2,7 @@ Last update: 8/3
 
 Current files:
 ---expecGamma---
-Currently not functioning correctly. Should solve the system of linear equations to give E[Gamma|X(0)=i].
+Solves the system of linear equations to give E[Gamma|X(0)=i] for any given Q and stateList and outer-household infection rate alpha
 
 
 --genQ---
