@@ -1,5 +1,5 @@
 function q=test(m)
 
-q=m*3;
+q=m*4;
 
 end
