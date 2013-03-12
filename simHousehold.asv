@@ -1,0 +1,11 @@
+gamma=2; beta=1; k=3;
+[Q stateList]=genQ(beta,gamma,k);
+
+%Find starting state with 1 infected, rest susceptible
+findRoot=roots([1 1 -2*length(stateList)]);
+popSize=findRoot'*(findRoot>0)-1;
+initialState=intersect(find((stateList(1,:)==(popSize-1))),find(stateList(2,:)==1));
+
+chainState(1)=initialState;
+for i=1:1000
+    

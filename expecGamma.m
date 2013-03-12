@@ -1,4 +1,4 @@
-function gam=expecGamma(Q,stateList,alpha)
+function [gam fullGam]=expecGamma(Q,stateList,alpha)
 
 noStates=length(Q);
 remainingStates=1:noStates;
