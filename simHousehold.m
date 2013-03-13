@@ -1,5 +1,5 @@
-clear;
-gamma=2; beta=40; k=10;
+function [infNo times]=simHousehold(gamma,beta,k)
+%gamma=2; beta=40; k=10;
 [Q stateList]=genQ(beta,gamma,k);
 
 %Find starting state with 1 infected, rest susceptible

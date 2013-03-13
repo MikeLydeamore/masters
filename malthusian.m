@@ -21,7 +21,7 @@ for i=1:noEqn
 end
 
 %Numerically solve
-r=fsolve(@(x) rMat(A,x,1,b),[1;1;1]);
+r=fsolve(@(x) rMat(A,x,1,b),ones(noEqn,1));
 end
 
 
