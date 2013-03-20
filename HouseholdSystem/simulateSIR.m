@@ -13,4 +13,6 @@ popStatus(1,2)=1;
 max_events=3*houseSize*N;
 
 noInfected=zeros(1,max_events);
-evenTime=zeros(1,max_events);
+eventTime=zeros(1,max_events);
+
+

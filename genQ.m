@@ -1,6 +1,9 @@
 function [Q stateList]=genQ(beta,gamma,k)
 %Very naive way of building Q matrix
 
+if nargin < 3
+    error('Not enough input arguments');
+end
 %# of states = (k+1)(k+2)/2
 Q=sparse(((k+1)*(k+2))/2,((k+1)*(k+2))/2);
 
