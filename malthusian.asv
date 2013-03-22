@@ -1,4 +1,6 @@
-function r=malthusian(Q,stateList)
+function r=malthusian(k,beta,gamma,alpha)
+
+%alpha=2;
 
 noStates=length(Q);
 remainingStates=1:noStates;
@@ -15,11 +17,11 @@ for i=1:noEqn
     for j=1:noEqn
         A(i,j)=Q(transient(i),transient(j)); %Build system to solve
     end
-    b(i)=-alpha*stateList(2,transient(i));
+    b(i)=alpha*stateList(2,transient(i));
 end
-
+pi_k=1/length(k)*ones(1,length(k));
 %Numerically solve
-
+r=fsolve(@(x) rMat(A,x,1,b),ones(noEqn,1));
 end
 
 
