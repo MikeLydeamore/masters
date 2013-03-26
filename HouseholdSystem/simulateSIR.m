@@ -1,12 +1,7 @@
-beta=1;
-gamma=10;
-alpha=1;
-eps=2;
+function [totalInfected, eventTime]=simulateSIR(beta,gamma,alpha,N,houseSize)
+eps=alpha; %Temporary
 
 maxIter=3*houseSize*N;
-
-N=10; %Number of households
-houseSize=4;
 
 popStatus=zeros(N,3); %S-I-R
 popStatus(2:end,1)=houseSize*ones(N-1,1);
@@ -24,11 +19,14 @@ totalInfected=zeros(1,maxIter);
 for i=1:maxIter
     %% Rates
     totalInfected(i)=sum(popStatus(:,2));
+    if totalInfected(i)==0 %No infected left, in absorbing state
+        break;
+    end
     %Internal infection at rate BIS
     rates(:,1)=beta*popStatus(:,2).*popStatus(:,1);
     
     %External infection at rate eps*totalI*S (not sure what eps is yet)
-    rates(:,2)=eps*totalInfected(i).*popStatus(:,1);
+    rates(:,2)=eps.*popStatus(:,1);
     
     %Recovery at rate gamma*I
     rates(:,3)=gamma*popStatus(:,2);
@@ -41,11 +39,13 @@ for i=1:maxIter
     normRateVector=rateVector./sum(rateVector);
     
     %Choose event
-    eventTime(i)=rand();
-    eventOccured=find(eventTime(i)<cumsum(normRateVector),1);
+    u=rand();
+    eventOccured=find(u<cumsum(normRateVector),1);
+    
+    %Calculate event time
+    eventTime(i+1)=exprnd(1/sum(rateVector));
     
     %Determine event and household
-    
     [household, event]=ind2sub([N, 3],eventOccured); %3 being the number of phases
     
     %% Make corresponding change
@@ -65,4 +65,6 @@ for i=1:maxIter
     %sdisp(popStatus);
 end
 
-plot(1:maxIter,totalInfected);
+plot(cumsum(eventTime),totalInfected);
+
+end
