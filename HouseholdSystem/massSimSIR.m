@@ -8,8 +8,8 @@ function [avgInfected, t]=massSimSIR(beta,gamma,alpha,N,houseSize)
 % N=10;
 % houseSize=4;
 
-iterations=50;
-t=0:0.1:5;
+iterations=500;
+t=0:0.01:5;
 avgInfected=zeros(1,length(t));
 for i=1:iterations
     [totalInfected, eventTime]=simulateSIR(beta,gamma,alpha,N,houseSize);
