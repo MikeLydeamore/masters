@@ -1,8 +1,8 @@
 function r=r_fzero(beta,gamma,k,alpha)
-[Q, stateList]=genQ(beta,gamma,k);
-f=@(r) sysSolve(r,Q,stateList,alpha,k)-1;
-r=fzero(f,0.1);
 
+[Q, stateList]=genQ(beta,gamma,k);
+f=@(r) sysSolve(r,Q,stateList,alpha,k);
+r=fzero(f,0.1);
 
 end
 
@@ -26,5 +26,5 @@ x=A\-b'; %Ax+b = 0
 
 initialState=intersect(find(stateList(1,:)==(k-1)),find(stateList(2,:)==1));
 
-s=x'*(initialState==transient);
+s=x'*(initialState==transient)-1;
 end

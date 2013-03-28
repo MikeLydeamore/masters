@@ -12,6 +12,8 @@ eventTime=zeros(1,maxIter);
 %Rate vector will go [Infection Infection ... Recovery Recovery ...] etc
 rates=zeros(N,2); %One row per household
 
+popSize=N*houseSize;
+
 totalInfected=zeros(1,maxIter);
 for i=1:maxIter
     %% Rates
@@ -19,7 +21,7 @@ for i=1:maxIter
     if totalInfected(i)==0 %No infected left, in absorbing state
         break;
     end
-    %Infection (both internal and external) at rate B*I*S+alpha*totalI*S
+    %Infection (both internal and external) at rate B*I*S+alpha*totalI/N*S
     rates(:,1)=beta*popStatus(:,2).*popStatus(:,1)+alpha.*(totalInfected(i)/popSize).*popStatus(:,1);
     
     %External infection at rate eps*totalI*S (not sure what eps is yet)
