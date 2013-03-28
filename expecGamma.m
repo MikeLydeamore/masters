@@ -32,5 +32,5 @@ initialState=intersect(find((stateList(1,:)==(popSize-1))),find(stateList(2,:)==
 transientState=find(transient==initialState);
 
 gam=fullGam(transientState);
-disp(fullGam);
+%disp(fullGam);
 end
