@@ -20,7 +20,7 @@ for i=1:maxIter
         break;
     end
     %Infection (both internal and external) at rate B*I*S+alpha*totalI*S
-    rates(:,1)=beta*popStatus(:,2).*popStatus(:,1)+alpha.*totalInfected(i).*popStatus(:,1);
+    rates(:,1)=beta*popStatus(:,2).*popStatus(:,1)+alpha.*(totalInfected(i)/popSize).*popStatus(:,1);
     
     %External infection at rate eps*totalI*S (not sure what eps is yet)
     %rates(:,2)=eps.*popStatus(:,1);
