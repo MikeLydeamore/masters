@@ -45,7 +45,7 @@ for i=1:maxIter
     eventTime(i+1)=exprnd(1/sum(rateVector));
     
     %Determine event and household
-    [household, event]=ind2sub([N, 2],eventOccured); %3 being the number of phases
+    [household, event]=ind2sub([N, 3],eventOccured); %3 being the number of phases
     
     %% Make corresponding change
     
