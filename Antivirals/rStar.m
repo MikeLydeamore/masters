@@ -6,7 +6,7 @@ switch onDist
         case 'exp' %exp on, exp off
             gam=0;
             for k=1:length(pi_k)
-                [Q, stateList]=genQ(beta,gamma,sigma,ro,tau,zeta,kappa,ita,k,0);
+                [Q, stateList]=genQ(beta,gamma,sigma,ro,tau,1/zeta,1/kappa,ita,k,0);
                 transient=find(diag(Q)~=0);
                 
                 for i=1:length(transient)
@@ -38,7 +38,7 @@ switch onDist
                 %Same as running from 0-Inf but with the antiviral never
                 %turning off, so use a Q that has kappa=0
                 integral1=0;
-                [Q, stateList]=genQ(beta,gamma,sigma,ro,tau,zeta,0,ita,k,1);
+                [Q, stateList]=genQ(beta,gamma,sigma,ro,tau,1/zeta,0,ita,k,1);
                 transient=find(diag(Q)~=0);
                 
                 for i=1:length(transient)
@@ -65,12 +65,12 @@ switch onDist
                 %First get p(T1). This is just a Q with absorption as soon as
                 %AVs are introduced, but the 'lower half' of this system.
                 integral2=0;
-                [Q, stateList]=genQ(beta,gamma,sigma,ro,tau,zeta,0,ita,k,1);
+                [Q, stateList]=genQ(beta,gamma,sigma,ro,tau,1/zeta,0,ita,k,1);
                 %Estimate at t=500 that we are in the steady state.
                 p0=zeros(1,length(stateList));
                 p0(initialState)=1;
-                pT1=mexpv(500,Q',p0);
-                lowerStates=stateList(4,:)==1;
+                pT1=mexpv(1000,Q',p0);
+                lowerStates=(stateList(4,:)==1);
                 pT1=pT1(lowerStates);
                 
                 %Now solve the system of DEs for constant time
@@ -98,9 +98,12 @@ switch onDist
                 %First get p(T2). This is p(T1)exp(Qc) where Q is the reduced
                 %system.
                 integral3=0;
-                [Q, stateList]=genQHalf(beta,gamma,sigma,ro,tau,ita,k);
+                [Q, stateList]=genQHalf(beta,gamma,sigma,tau,ro,ita,k);
                 %p(T2)=p(T1)*exp(Qc)
                 pT2=mexpv(kappa,Q',pT1);
+					 
+					 %Need an unreduced Q for the path integral
+					 [Q, stateList]=genQHalf(beta,gamma,sigma,0,0,0,k);
                 
                 for i=1:length(transient)
                     for j=1:length(transient)
@@ -140,11 +143,10 @@ switch onDist
                         
                     end
                     %DE solver
-                    %Want state (k-1, 1, 0)
-                    initialState=find(stateList(1,:)==(k-1)&stateList(2,:)==1&stateList(3,:)==0);
-                    psi0 = zeros(1,length(b1));
-                    %psi0(transient==initialState)=1;
-                    psi = phiv(zeta,A1,b1',psi0');
+                    %Want state (k-1, 0, 1)
+                    initialState=find(stateList(1,:)==(k-1)&stateList(2,:)==0&stateList(3,:)==1);
+                    psi0 = zeros(length(b1),1);
+                    psi = phiv(zeta,A1,b1',psi0);
                     integral1=(pi_k(k)*psi'*(initialState==transient));
                 
                     %c - T2
@@ -155,14 +157,15 @@ switch onDist
                     p0=zeros(1,length(Q));
                     p0(initialState)=1;
                     pc = mexpv(zeta,Q',p0);
-                    %Shift this down to the 'bottom half' of the large Q
-                    %matrix.
+                    %Shift this down to the 'middle section' of the large Q
+                    %matrix, where dynamics have the reduced rates.
                     pc = [zeros(length(pc),1);pc;zeros(length(pc),1)];
                     
                     %Now, solve for 0-T1 which is the same as 0-Inf but
                     %starting with AVs and never turning them off.
                     integral2=0;
-                    [Q, stateList]=genQ(beta,gamma,sigma,ro,tau,0,kappa,ita,k,-1);
+                    [Q, stateList]=genQ(beta,gamma,sigma,ro,tau,0,1/kappa,ita,k,-1);
+                    %[Q, stateList]=genQHalf(beta,gamma,sigma,ro,tau,ita,k);
                     transient=find(diag(Q)~=0);
                 
                     for i=1:length(transient)
@@ -186,7 +189,7 @@ switch onDist
                     %Same as 0-Inf with p(T2)
                     
                     %Estimate at t=500 that we are in the steady state.
-                    [Q, stateList]=genQ(beta,gamma,sigma,ro,tau,0,kappa,ita,k,-1);
+                    [Q, stateList]=genQ(beta,gamma,sigma,ro,tau,0,1/kappa,ita,k,-1);
                     pT2=mexpv(10000,Q',pc);
                     upperStates=stateList(4,:)==2;
                     pT2=pT2(upperStates);
@@ -230,8 +233,8 @@ switch onDist
                         
                     end
                     %DE solver
-                    %Want state (k-1, 1, 0)
-                    initialState=find(stateList(1,:)==(k-1)&stateList(2,:)==1&stateList(3,:)==0);
+                    %Want state (k-1, 0, 1)
+                    initialState=find(stateList(1,:)==(k-1)&stateList(2,:)==0&stateList(3,:)==1);
                     psi0 = zeros(1,length(b1));
                     %psi0(transient==initialState)=1;
                     psi = phiv(zeta,A1,b1',psi0');
@@ -255,13 +258,14 @@ switch onDist
                             A2(i,j)=Q(transient(i),transient(j));
                         end
                         %The external infections happen at rate alpha
-                        b2(i)=alpha*stateList(3,transient(i));
+                        %b2(i)=alpha*stateList(3,transient(i));
+                        b2(i) = (1-tau)*alpha*stateList(3,transient(i));
                         
                     end
                     %DE solver
                     %psi0 = pC(transient);
                     psi0=zeros(length(b2),1);
-                    psi = phiv(zeta,A2,b2',psi0);
+                    psi = phiv(kappa,A2,b2',psi0);
                     integral2=(pi_k(k)*psi'*pC(transient));
                     
                     %Integral 3

@@ -21,14 +21,14 @@ constexp=zeros(1,length(kappa));
 constconst=zeros(1,length(kappa));
 for i=1:length(kappa)
     fprintf('Current kappa: %.2f\n',kappa(i));
-    expconst(i)=rStar2(beta,gamma,sigma,ro,tau,'exp',zeta,'const',kappa(i),ita,pi_k,alpha);
+    expconst(i)=rStar(beta,gamma,sigma,ro,tau,'exp',zeta,'const',kappa(i),ita,pi_k,alpha);
 end
 
 
 fprintf('Starting Exp-Exp\n');
 for i=1:length(kappa)
     fprintf('Current kappa: %.2f\n',kappa(i));
-    expexp(i)=rStar2(beta,gamma,sigma,ro,tau,'exp',zeta,'exp',kappa(i),ita,pi_k,alpha);
+    expexp(i)=rStar(beta,gamma,sigma,ro,tau,'exp',zeta,'exp',kappa(i),ita,pi_k,alpha);
 end
 % for i=1:length(kappa)
 % 	fprintf('Current kappa: .%.2f\n',kappa(i));
@@ -38,12 +38,12 @@ end
 fprintf('Starting Const-Exp\n');
 for i=1:length(kappa)
     fprintf('Current kappa: %.2f\n',kappa(i));
-    constexp(i)=rStar2(beta,gamma,sigma,ro,tau,'const',zeta,'exp',kappa(i),ita,pi_k,alpha);
+    constexp(i)=rStar(beta,gamma,sigma,ro,tau,'const',zeta,'exp',kappa(i),ita,pi_k,alpha);
 end
 fprintf('Starting Const-Const\n');
 for i=1:length(kappa)
     fprintf('Current kappa: %.2f\n',kappa(i));
-    constconst(i)=rStar2(beta,gamma,sigma,ro,tau,'const',zeta,'const',kappa(i),ita,pi_k,alpha);
+    constconst(i)=rStar(beta,gamma,sigma,ro,tau,'const',zeta,'const',kappa(i),ita,pi_k,alpha);
 end
 plot(kappa,expconst);
 hold on;
