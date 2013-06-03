@@ -1,0 +1,5 @@
+function I=noInfected(Q,stateList,t)
+
+
+
+end
