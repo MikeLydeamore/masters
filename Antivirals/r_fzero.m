@@ -7,12 +7,14 @@ switch onDist
             case 'exp'
                 f=@(r) sysSolve(r,beta,gamma,sigma,ro,tau,zeta,kappa,ita,alpha,pi_k);
             case 'const'
+					f=@(r) r_expconst(r,beta,gamma,sigma,ro,tau,zeta,kappa,ita,alpha,pi_k);
             otherwise
                 error('Unknown type of offDist');
         end
     case 'const'
         switch offDist
             case 'exp'
+					
             case 'const'
             otherwise
                 error('Unknown type of offDist');

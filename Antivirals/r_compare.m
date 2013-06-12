@@ -6,7 +6,7 @@ tau=0.3;
 onDist='exp';
 zeta=1;
 kappa=0.2;
-offDist='exp';
+offDist='const';
 pi_k=[0 0.1 0.3 0.2 0.3 0.1];
 phi_k=[0 0 0 0 0 0];
 alpha=1;
@@ -33,7 +33,7 @@ for i=1:iter
     testIterations=testIterations+1;
     fprintf('Iteration: %2d \n',i);
     tic;
-    [totalInfected, eventTime, noAV, numberOfInfected(i), popSize]=simulateAV(beta,gamma,sigma,alpha,onDist,zeta,offDist,kappa,ro,tau,ita,pi_k,phi_k,N);
+    [totalInfected, eventTime, noAV, numberOfInfected(i), popSize]=sim_expconst(beta,gamma,sigma,alpha,zeta,kappa,ro,tau,ita,pi_k,phi_k,N);
     totalTime=cumsum(eventTime);
     endtime(i)=totalTime(end);
     %Work out average
