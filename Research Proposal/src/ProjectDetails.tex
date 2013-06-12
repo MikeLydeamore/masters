@@ -1,0 +1,59 @@
+\section{Project Details}
+\subsection{Main Model}
+The disease we will be focussing on will follow the Susceptible-Exposed-Infected-Recovered (S-E-I-R) model, formulated as a Continuous Time Markov Chain. Individuals begin as susceptible (except for the initial infected person who starts the epidemic) and then are exposed to the virus at some constant rate per infected person. Once they have been exposed, they progress into infection and then recovery at a constant rate.
+
+Note that an individual in the exposed class can be thought of as a carrier of the disease, but is unable to infect anyone until they progress into the infectious class.
+
+The model of interest is a compartmentalised (household) model. Our population is divided up into a number of `households' of variable size. This gives us two methods of infection: internal and external infection. We will make the assumption that the internal infection rate (denoted $\beta$) is higher than the external infection rate (denoted $\alpha$). This makes physical sense as people generally have a much higher contact rate with people inside their household than with other people in the population. We also make the assumption that each person in a household is equally likely to contract the disease.
+
+We will also assume that when a household has antivirals present, the infection rate will be reduced by some constant factor and the infectious period could also be reduced.
+
+Our parameters of interest are $R^*$ which is defined as the expected number of secondary households infected by a single infected household, and $r$ (sometimes called the `Malthusian' parameter) which is an approximation to the early growth rate of the epidemic. Other statistics of interest could potentially be the final epidemic size (proportion of people who become infected over the course of an epidemic), epidemic duration and cost to authorities.
+
+\cite{Ross:2010} showed that the parameter $R^*$ is the solution of
+\begin{equation}
+\Gamma=\expec{\int_0^\infty \alpha I(X(t)) dt} \label{Eqn: R* 1}
+\end{equation}
+conditioned on starting in state $i$, where $I(X(t))$ is the number of infected people in a single household at time $t$. This expectation of a path integral can be efficiently evaluated as a system of linear equations \cite{Pollett:2002}.
+
+This was then extended in \cite{Black:2013} to a model with variable household size, and it has been shown that conditioned on starting in state $i$,
+$$R^*=\sum_k \pi_k \expec{\int_0^\infty \alpha I(X_k(t))dt}$$
+where $\pi_k$ is the proportion of households of size $k$ and $I(X_k(t))$ is the number of infected people in a household of size $k$ and time $t$. This can again efficiently be evaluated as a system of linear equations, just as in eqn \ref{Eqn: R* 1}
+
+\cite{Ross:2010} also showed that the growth parameter $r$ is the solution to
+\begin{equation}
+\pi_k \expec{\int_0^\infty \alpha I(X(t))e^{-rt}dt}=1
+\end{equation}
+
+\cite{Black:2013} then extended these equations further to incorporate use of antivirals that are delivered post-infection. They found that the delay of receiving antivirals has a large impact on the doubling time of the epidemic. Their assumption for the antivirals was that the infectivity of others in the household and the susceptibility were reduced while the antivirals were present. They also assumed that the external force of infection from the household with antivirals was reduced.
+
+\subsection{Other models}
+There has been work in this area that has focussed on other types of model. For example, in \cite{Matrajt:2013}, a model that includes travel in and out of cities was studied. Their model had people being vaccinated as soon as an epidemic had begun, with more vaccine being available at the beginning of each day. It was their conclusion that up to a threshold, it is better to focus vaccination of a particular city rather than spread the dosage equally over a larger area. Our model does not include travel, but rather assumes a fixed population size over the epidemic.
+
+\cite{House:2008} has looked at intervention during an epidemic, but only on deterministic system. They have formulated the structure as a `gas' model and then produce numeric results on the influence of antiviral measures. Our system does not have the `gas' structure, and also has stochasisity.
+
+\cite{Goldstein:2010} uses a model to analyse the idea of pre-dispensing antivirals. Using this, they are able to break down the possible situations into three categories and provide conditions on when pre-distribution is optimal in each of them. Our model has a more robust setting, and also allows for more flexibility in terms of the effect that antivirals have, but we hope to attempt to derive similar conditions.
+
+\subsection{Work}
+Our aim is to extend the work that has been done on these types of models previously to include the delay to delivery of antivirals, as well as the antivirals also being active for a finite time. This will help to add to the realism of the model. The average duration for Zanamivir and Oseltamivir (two of the recommended treatments in \cite{Stiver:2003}) is five days, but the expected duration of an epidemic is far longer (\cite{Fleming:1999} suggests around ten weeks). We consider four cases of delays and durations:
+\begin{enumerate}
+  \item Exponential delay and exponential duration
+  \item Exponential delay and constant duration
+  \item Constant delay and exponential duration
+  \item Constant delay and constant duration
+\end{enumerate}
+Case two is of particular interest, as it seems to make the most realistic sense.
+
+Case one is a simple extension of the work in \cite{Black:2013}, where we add another section to the generator matrix of the CTMC which captures the dynamics in a single household after the antivirals have finished.
+$$Q=\begin{bmatrix} Q_1 & Z & 0 \\
+0 & Q_2 & K \\
+0 & 0 & Q_1 \end{bmatrix} $$
+where $Q_1$ and $Q_2$ represent the dynamics of the system without and with antivirals respectively, and $Z, K$ represent the rates at which antivirals are introduced and removed from the household respectively. We can use this $Q$ in the equations in \ref{Eqn: R* 1} to get the early growth rate and $R^*$. We also confirm these results (and all future results) via a simulation of the epidemic over the whole system.
+
+Incorporating the constant delay into the system is more difficult. Focussing on $R^*$, we can break the integral into three sections: The period before antivirals, the period with antivirals and the period after antivirals. For case 2, these integrals are the following:
+\begin{equation}
+R^*=\int_0^{T_1} \alpha I(X(t))dt + p(T_1)\int_0^{T_2} (1-\tau)\alpha I(X(t))dt + p(T_2)\int_0^\infty \alpha I(X(t))dt
+\end{equation}
+where $T_1$ is the time at which antivirals become available and $T_2$ is the time at which antivirals are no longer available. To solve the first term, we consider an alternative chain where the process is absorbed after some exponential time $T_1$. If we use this chain, then the first integral can be evaluated from 0 to $\infty$. The second term can be solved as a system of differential equations \cite{Black:2013}:
+$$\frac{d\psi_i}{dt}=f(i)+\sum_j q(i,j)\psi_j(t), \quad i,j \in C$$
+where $C$ is the states that form an irreducible transient class of the Markov chain.

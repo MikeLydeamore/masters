@@ -1,0 +1,55 @@
+\begin{thebibliography}{1}
+
+\bibitem{Black:2013}
+AJ~Black, T~House, MJ~Keeling, and JV~Ross.
+\newblock Epidemiological consequences of household-based antiviral prophylaxis
+  for pandemic influenza.
+\newblock {\em J R Soc Interface}, 2013.
+
+\bibitem{Fleming:1999}
+D~M Fleming, M~Zambon, A~I~M Bartelds, and J~C de~Jong.
+\newblock The duration and magnitude of influenza epidemics: A study of
+  surveillance data from sentinel general practices in england, wales and the
+  netherlands.
+\newblock {\em European Journal of Epidemiology}, 1999.
+
+\bibitem{Goldstein:2010}
+Edward Goldstein, Joel~C Miller, Justin O'Hagan, and Marc Lipsitch.
+\newblock Predispensing of antivirals to high-risk individuals in an influenza
+  pandemic.
+\newblock {\em NIH}, 2010.
+
+\bibitem{Hayden:2004}
+Frederick~G. Hayden, Robert Belshe, Catalina Villanueva, Riin Lanno, Claire
+  Hughes, Ian Small, Regina Dutkowski, Penelope Ward, and Jackie Carr.
+\newblock Manage of influenza in households: A prospective, randomized
+  comparison of oseltamivir treatment with or without postexposure prophylaxis.
+\newblock {\em Journal of Infectious Diseases}, 189(3):440--449, 2004.
+
+\bibitem{House:2008}
+Thomas House and Matt~J Keeling.
+\newblock Deterministic epidemic models with explicit household structure.
+\newblock {\em ScienceDirect}, 2008.
+
+\bibitem{Matrajt:2013}
+L~Matrajt, Halloran ME, and Longini IM.
+\newblock Optimal vaccine allocation for the early mitigation of pandemic
+  influenza.
+\newblock {\em PLoS Comput Biol}, 2013.
+
+\bibitem{Pollett:2002}
+PK~Pollett and VT~Stefanov.
+\newblock Path integrals for continuous-time markov chains.
+\newblock {\em Applied Probability}, 2002.
+
+\bibitem{Ross:2010}
+JV~Ross, T~House, and MJ~Keeling.
+\newblock Calculation of disease dynamics in a population of households.
+\newblock {\em PLoS ONE}, 2010.
+
+\bibitem{Stiver:2003}
+Grant Stiver.
+\newblock The treament of influenza with antiviral drugs.
+\newblock {\em Canadian Medical Assocation Journal}, 168(1):49--57, 2003.
+
+\end{thebibliography}

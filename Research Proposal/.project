@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<projectDescription>
+	<name>ResearchProposal</name>
+	<comment></comment>
+	<projects>
+	</projects>
+	<buildSpec>
+		<buildCommand>
+			<name>net.sourceforge.texlipse.builder.TexlipseBuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+	</buildSpec>
+	<natures>
+		<nature>net.sourceforge.texlipse.builder.TexlipseNature</nature>
+	</natures>
+	<linkedResources>
+		<link>
+			<name>src/.tex</name>
+			<type>1</type>
+			<location>/usr/local/texlive/2012/texmf-dist/tex/latex/tools/.tex</location>
+		</link>
+	</linkedResources>
+	<variableList>
+		<variable>
+			<name>BibFile</name>
+			<value>file:/Users/a1210340/Documents/masters/masters/MasterBib.bib</value>
+		</variable>
+	</variableList>
+</projectDescription>
